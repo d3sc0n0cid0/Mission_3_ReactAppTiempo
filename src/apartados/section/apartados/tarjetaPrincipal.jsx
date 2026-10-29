@@ -36,6 +36,31 @@ export default function TarjetaPrincipal({prediccionDia}){
         (item) => item.hora === horaMenorDiferencia
     )?.value ?? '--';
 
+    //Sacamos la descripción de la hora más cercana
+        //Lo da por tramos 00-24, 6-12 etc.:(
+    const estadoCieloDatos = prediccionDia?.estadoCielo || [];
+        //Si tienen descripción lo quiero
+    const conDescripción = estadoCieloDatos.filter((item) => (item.descripcion));
+        //Las que tienen diferencias de 6 horas
+        //Para que sean más cercanas
+    const periodosValidos = conDescripción.filter(
+        (item)=>{
+            const [inicio, fin] = item.periodo.split('-').map(Number);//6-12 -> 6 y 12
+            let diferencia = fin-inicio;
+            return diferencia===6;
+        }
+    );
+        //Finalmente escojo el conjunto que esté mas cercano a la hora actual
+    const descripcionActual = periodosValidos.find(
+        (item)=>{
+            let periodo = item;
+            const [inicio, fin] = item.periodo.split('-').map(Number);//6-12 -> 6 y 12
+            if(inicio<=horaMenorDiferencia && fin>=horaMenorDiferencia){
+                return periodo;
+            }
+        }
+    );
+    
     return(
         <div>
             <div>
@@ -45,6 +70,8 @@ export default function TarjetaPrincipal({prediccionDia}){
             </div>
             <div>
                 {/*Imagen + definicion*/}
+                <img src={`https://www.aemet.es/imagenes/png/estado_cielo/${descripcionActual.value}.png`}/>
+                <p>{descripcionActual.descripcion}</p>
             </div>
         </div>
     )
