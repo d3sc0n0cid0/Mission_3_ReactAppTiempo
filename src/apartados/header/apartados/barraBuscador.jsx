@@ -13,7 +13,7 @@ El botón de información
     -Si han puesto un municipio que sea lo que está en municipio actual (no funcio al 100%)
     -use memo para buscar municipio si no cambia el encabezado
 */
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import {fetchWeatherByMunicipio} from '../../API/Aemet.js'
 import '../header.css';
 import municipios from '../../../assets/json/municipios_espana.json';
@@ -82,6 +82,11 @@ export default function Buscador(){
             });
         }
     };
+
+    // useEffect con [] se ejecuta AUTOMÁTICAMENTE NADA MÁS CUALQUIERA ENTRA A LA PÁGINA
+    useEffect(() => {
+        manejarBusqueda(); 
+    }, []); // El array vacío [] asegura que solo se ejecute al cargar el componente
 
     return (
         <div>
