@@ -62,16 +62,18 @@ export default function TarjetaPrincipal({prediccionDia}){
     );
     
     return(
-        <div>
-            <div>
+        <div className="TempSensDescription">
+            <div className="tempActSensTerm">
                 {/*TempActual + sensTermica*/}
-                <p>{tempActualEstimada}</p>
-                <p>{sensTermicaEstimada}</p>
+                <p className="temperaturaActual">{tempActualEstimada}</p>
+                <p className="sensacionTermica">Sensacion Termica: {sensTermicaEstimada}</p>
             </div>
-            <div>
+            <div className="descripcionTiempoImagen">
                 {/*Imagen + definicion*/}
-                <img src={`https://www.aemet.es/imagenes/png/estado_cielo/${descripcionActual.value}.png`}/>
-                <p>{descripcionActual.descripcion}</p>
+                <div className="cajaImagenTiempo">
+                    <img className="imagenTiempo" src={`https://www.aemet.es/imagenes/png/estado_cielo/${descripcionActual.value}.png`}/>
+                </div>
+                <p className="descripcionTiempo">{descripcionActual.descripcion}</p>
             </div>
         </div>
     )

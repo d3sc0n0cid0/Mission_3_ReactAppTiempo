@@ -1,6 +1,6 @@
 import Reloj from './reloj'
 import Dia from './dia'
-
+import '../section.css'
 export default function TarjetaInicio({prediccionDia}){
 
     const tempMaxima = prediccionDia.temperatura?.maxima;
@@ -8,13 +8,19 @@ export default function TarjetaInicio({prediccionDia}){
 
     return(
         <div>
-            {/*fecha*/}
-            <Dia/>
-            {/*hora*/}
-            <Reloj/>
-            {/*Temperatura max y minima*/}
-            <p>{tempMinima}</p>
-            <p>{tempMaxima}</p>
+            <div className='Fecha_Temperatura'>
+                <div className='fechaHora'>
+                {/*fecha*/}
+                    <Dia/>
+                {/*hora*/}
+                    <Reloj/>
+                </div>
+                <div className='tempMaxMin'>
+                {/*Temperatura max y minima*/}
+                    <p>Min: {tempMinima}</p>
+                    <p>Max: {tempMaxima}</p>
+                </div>
+            </div>
         </div>
     )
 

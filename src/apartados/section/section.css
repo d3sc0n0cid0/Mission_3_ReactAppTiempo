@@ -1,0 +1,119 @@
+/*Fecha y hora y temperatura día y noche*/
+.Fecha_Temperatura{
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+.fechaHora{
+    justify-content: left;
+    flex-direction: row;
+    display: flex;
+
+    font-size: 16px;
+    gap: 15px;
+}
+.tempMaxMin{
+    justify-content: left;
+    flex-direction: row;
+    display: flex;
+
+    font-size: 16px;
+    gap: 15px;
+}
+/*///////////////////////////////////////////////////////////////////////////////////////*/
+/*Datos principales*/
+.TempSensDescription{
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 20px;
+    padding: 20px;
+
+    border: 3px solid #9db0d9;
+    background-color: rgb(152, 180, 237);
+    border-radius: 8px;
+    border-style: dotted;
+
+    background-image: url(../../assets/src/img/fondoCuadradoInterno.jpg);
+        background-repeat: no-repeat;
+	    background-size: cover;
+        background-color: rgb(175, 155, 229);
+        background-position: center;
+}
+/*Temperatura actual y sencasión térmica*/
+.tempActSensTerm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.temperaturaActual{
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: bold;
+    margin: 0;
+}
+.sensacionTermica{
+    font-size: 16px;
+    margin-top: 5px;
+}
+.descripcionTiempoImagen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cajaImagenTiempo{
+    width: 140px;
+    height: 140px;
+    padding: 5px;
+
+    background-color: rgba(241, 236, 236, 0.7);
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imagenTiempo{
+    transform:scale(2);
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+.descripcionTiempo {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+/*///////////////////////////////////////////////////////////////////////////////////////*/
+/*Información Extra*/
+.otrasInfo{
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.caja{
+    padding: 10px 15px;
+    border: 3px solid #9db0d9;
+    border-radius: 8px;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    gap: 10px;
+    flex: 1 1 180px;
+
+    object-fit: contain;
+    background-color: rgba(255, 255, 255, 0.3);
+}

@@ -1,5 +1,6 @@
 import Buscador from './apartados/barraBuscador'
 import Mensaje from './apartados/mensaje'
+import './header.css';
 
 import { ClimaContext } from '../../App.jsx';
 
@@ -13,8 +14,10 @@ export default function Header(){
             {/*Mensaje de error/Cargando*/}
             <Mensaje/>
             {/*Botones para hoy y mañana*/}
-            <button onClick = {()=>setfecha(0)}>Hoy</button>
-            <button onClick = {()=>setfecha(1)}>Mañana</button>
+            <div className='botonesDia'>
+                <button  className="botonMostrarTiempoDe" onClick = {()=>setfecha(0)}>Hoy</button>
+                <button className="botonMostrarTiempoDe" onClick = {()=>setfecha(1)}>Mañana</button>
+            </div>
         </div>
     )
 }

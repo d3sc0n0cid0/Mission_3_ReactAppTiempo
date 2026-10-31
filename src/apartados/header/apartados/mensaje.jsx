@@ -5,6 +5,7 @@
 
 import {useContext} from "react";
 import { ClimaContext } from '../../../App.jsx';
+import '../header.css';
 
 export default function Mensaje(){
 
@@ -24,7 +25,7 @@ export default function Mensaje(){
   const icono = configuracion[tipo];
 
   return (
-    <div>
+    <div className="contenedorMesnajeUsuario">
         <p><span>{icono} </span>{texto}</p>
     </div>
   );

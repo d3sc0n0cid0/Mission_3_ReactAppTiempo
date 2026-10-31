@@ -8,10 +8,10 @@ export default function TarjetaDetalles({ prediccionDia }) {
   const probPrecipitation = prediccionDia.probPrecipitacion[0]?.value || 0;
 
   return (
-    <div>
-      <p>💨 Viento: {viento} km/h {direccionViento}</p>
-      <p>💧 Humedad Máxima: {humedad}%</p>
-      <p>🌧️ Probabilidad de lluvia: {probPrecipitation}%</p>
+    <div className="otrasInfo">
+      <p className="caja">💨 Viento: {viento} km/h {direccionViento}</p>
+      <p className="caja">💧 Humedad Máxima: {humedad}%</p>
+      <p className="caja">🌧️ Probabilidad de lluvia: {probPrecipitation}%</p>
     </div>
   );
 }

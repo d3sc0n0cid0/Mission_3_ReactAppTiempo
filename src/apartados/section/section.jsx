@@ -5,6 +5,7 @@ import { ClimaContext } from "../../App.jsx";
 import TarjetaInicio from './apartados/tarjetaInicio.jsx';
 import TarjetaDetalles from "./apartados/tarjetaDetalles.jsx";
 import TarjetaPrincipal from "./apartados/tarjetaPrincipal.jsx"
+import './section.css';
 
 export default function Seccion(){
     const { datosTiempo, fecha } = useContext(ClimaContext);

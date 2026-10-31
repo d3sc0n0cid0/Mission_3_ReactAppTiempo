@@ -1,7 +1,26 @@
 /*Para las cosas generales de APP Por mi:*/
 
-*{
-  text-align: center;
+  /*Cambios generales*/
+html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;    
+    overflow-y: auto;
+    background-image: url(./assets/src/img/imagenFondo.jpg); 
+	background-repeat: no-repeat;
+	background-size: cover;
+    background-color: rgb(155, 155, 229);
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+    color: rgb(63, 47, 47);
+}
+
+  /*NoScript*/
+noscript{
+  color: blue;
+  outline: auto;
+  outline-color: rebeccapurple;
 }
 
 /*Cosas que ya estaban y que me ha dicho el profesor que no debo tocar*/

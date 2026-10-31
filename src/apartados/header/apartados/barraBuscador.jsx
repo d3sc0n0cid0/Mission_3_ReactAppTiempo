@@ -12,11 +12,12 @@ El botón de información
     -Desbloqeuar controles en el finally
     -Si han puesto un municipio que sea lo que está en municipio actual (no funcio al 100%)
     -use memo para buscar municipio si no cambia el encabezado
+    -Quitar el que busque en cualquier momento
 */
 import { useState, useContext,useEffect } from "react";
 import {fetchWeatherByMunicipio} from '../../API/Aemet.js'
 import '../header.css';
-import municipios from '../../../assets/json/municipios_espana.json';
+import municipios from '../../../assets/src/json/municipios_espana.json';
 import { ClimaContext } from '../../../App.jsx';
 
 export default function Buscador(){
@@ -39,6 +40,7 @@ export default function Buscador(){
     /*Muestra el pdf*/
     function mostrarPdf(){
         setVerPdf(!verPdf);
+        pdf-container.classList.toggle("mostrar");
     }
     /*Busca el municipio*/
         //Comprobamos si lo tengo en mi lista de municipios
@@ -89,13 +91,19 @@ export default function Buscador(){
     }, []); // El array vacío [] asegura que solo se ejecute al cargar el componente
 
     return (
-        <div>
+        <div className = "buscadorMunicipio">
         {/*Buscador y botón buscar*/}
-            <input type="text" placeholder={municipioActual} value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
-            <button onClick ={manejarBusqueda}><span>&#128269;</span></button>
+            <input className="inputBusqueda" type="text" placeholder={municipioActual} value={busqueda} onChange={(e) => setBusqueda(e.target.value)}/>
+            <button className="buscarMunicipio" onClick ={manejarBusqueda}><span>&#128269;</span></button>
         {/*Pdf y botón mostrar/oculatr pdf*/}
-            <button onClick={mostrarPdf}>(&#8505;)</button>
-            {verPdf && (<iframe src="../../public/assets/src/pdf/detalle_municipios_zonas_meteorologicas.pdf"></iframe>)}
+            <button className="botonInformacion" onClick={mostrarPdf}>(&#8505;)</button>
+            {/*Es lo más cercano a tener un toggle class, si es visible le añade el .mostrar */}
+            <div className={`pdf-container ${verPdf ? 'mostrar' : ''}`}>
+                <iframe 
+                src="/assets/src/pdf/detalle_municipios_zonas_meteorologicas.pdf"
+                title="Detalle municipios"
+                ></iframe>
+            </div>
         </div>
     )
 }

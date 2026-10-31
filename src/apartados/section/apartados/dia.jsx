@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ClimaContext } from "../../../App.jsx";
-
+import '../section.css'
 export default function Dia() {
   const { fecha } = useContext(ClimaContext);
   const diasASumar = Number(fecha) || 0;
