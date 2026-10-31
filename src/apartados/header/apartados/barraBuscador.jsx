@@ -6,12 +6,7 @@ El botón de buscar
 El botón de información
  */
 
-/*
-    TO-DO:
-    -Bloquear controles mientras se busca
-    -Desbloqeuar controles en el finally
-*/
-import { useState, useContext,useEffect, useMemo } from "react";
+import { useState, useContext, useEffect, useMemo, useRef } from "react";
 import {fetchWeatherByMunicipio} from '../../API/Aemet.js'
 import '../header.css';
 import municipios from '../../../assets/src/json/municipios_espana.json';
@@ -28,6 +23,9 @@ export default function Buscador({onHabilitar}){
 
     //De HabilitadoContext
     let {bDesabilitado,bloqeuar,desBloqeuar} = useContext(HabilitadoContext);
+    
+    // Referencia persistente para el controlador de aborto
+    const abortControllerRef = useRef(null);
 
     // Precalculamos la lista indexando los nombres normalizados una sola vez al cargar el módulo
     //lo meto en un useMemo para evitar el coste de tener qe calcularlo cada vez
@@ -47,17 +45,23 @@ export default function Buscador({onHabilitar}){
     /*Busca el municipio*/
         //Comprobamos si lo tengo en mi lista de municipios
     function buscarCodigoMunicipio(busqueda) {
-
         if (!busqueda) {return null;}
-          const terminoLimpio = busqueda.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-          const municipioEncontrado = municipiosIndexados.find(m => 
+        const terminoLimpio = busqueda.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const municipioEncontrado = municipiosIndexados.find(m => 
             m.nombreNormalizado === terminoLimpio
-          );
-          return municipioEncontrado ? municipioEncontrado.codigo : null;
+        );
+        return municipioEncontrado ? municipioEncontrado.codigo : null;
     }
 
     //Manejar la búsqueda
     const manejarBusqueda = async () => {
+        // Cancelamos cualquier petición previa en curso antes de empezar una nueva
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+        // Creamos un nuevo controlador para la petición actual
+        abortControllerRef.current = new AbortController();
+
         //Si no escriben nada
         if (!busqueda.trim()) {
             setMensajeInfo({texto: 'Escribe un municipio.', tipo: 'error'});
@@ -73,14 +77,17 @@ export default function Buscador({onHabilitar}){
         try {
             bloqeuar();//Bloqueamos controles
 
-            //Ejecutamos la búsqueda a la API de Aemet
-            const datos = await fetchWeatherByMunicipio(codigo);
+            //Ejecutamos la búsqueda a la API de Aemet usando la señal guardada en la referencia
+            const datos = await fetchWeatherByMunicipio(codigo, abortControllerRef.current.signal);
+            
             //Guardamos los datos
             if (setDatosTiempo) setDatosTiempo(datos);
             if(datos!=null) setMunicipioActual(busqueda) 
             //Limpiar mensaje si todo salió bien
             setMensajeInfo({ texto: '', tipo: '' });
         } catch (error) {
+            //Petición cancelada por usuario
+            if (error.name === 'AbortError') return;
             //Si falla algo ha sido de la API
             setMensajeInfo({ 
                 texto: error.message || 'Error al consultar AEMET.', 
@@ -92,10 +99,17 @@ export default function Buscador({onHabilitar}){
         }
     };
 
-    // useEffect con [] se ejecuta AUTOMÁTICAMENTE NADA MÁS CUALQUIERA ENTRA A LA PÁGINA
+    // useEffect que solo se ejecuta una vez al montar el componente
     useEffect(() => {
-        manejarBusqueda(); 
-    }, []); // El array vacío [] asegura que solo se ejecute al cargar el componente
+        manejarBusqueda();
+
+        return () => {
+            // Cancelamos la petición activa si el componente se desmonta
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
+    }, []);
 
     return (
         <div className = "buscadorMunicipio">
@@ -104,7 +118,7 @@ export default function Buscador({onHabilitar}){
                 value={busqueda} onChange={(e) => setBusqueda(e.target.value)}
                 disabled={bDesabilitado}
             />
-            <button className="buscarMunicipio" onClick ={manejarBusqueda} disabled={bDesabilitado}>
+            <button className="buscarMunicipio" onClick={manejarBusqueda} disabled={bDesabilitado}>
                 <span>&#128269;</span>
             </button>
         {/*Pdf y botón mostrar/oculatr pdf*/}
