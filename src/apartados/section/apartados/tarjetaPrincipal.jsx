@@ -1,4 +1,5 @@
 // Caja con temperatura sensacion termica, imagen y como de nubloso
+//El profesor me dijo que no eta necesario separarlo en más subfunciones y que así estaba bien
 
 export default function TarjetaPrincipal({prediccionDia}){
 /* Así es como tiene guardadas las horas

@@ -14,7 +14,7 @@ El botón de información
     -use memo para buscar municipio si no cambia el encabezado
     -Quitar el que busque en cualquier momento
 */
-import { useState, useContext,useEffect } from "react";
+import { useState, useContext,useEffect, useMemo } from "react";
 import {fetchWeatherByMunicipio} from '../../API/Aemet.js'
 import '../header.css';
 import municipios from '../../../assets/src/json/municipios_espana.json';
@@ -29,12 +29,14 @@ export default function Buscador(){
     const { setDatosTiempo, setMensajeInfo } = useContext(ClimaContext);
 
     // Precalculamos la lista indexando los nombres normalizados una sola vez al cargar el módulo
-    const municipiosIndexados = municipios.map(m => ({
-        codigo: m.codigo,
-        nombre: m.nombre,
-        // Guardamos el nombre limpio y normalizado
-        nombreNormalizado: m.nombre.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    }));
+    //lo meto en un useMemo para evitar el coste de tener qe calcularlo cada vez
+    const municipiosIndexados = useMemo(() => {
+        return municipios.map((m) => ({
+            codigo: m.codigo,
+            nombre: m.nombre,
+            nombreNormalizado: m.nombre.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        }));
+    }, [municipios]);//Y solo cambia cuand cambie municipios
 
     //Funciones
     /*Muestra el pdf*/
