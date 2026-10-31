@@ -1,3 +1,10 @@
+/*Para las cosas generales de APP Por mi:*/
+
+*{
+  text-align: center;
+}
+
+/*Cosas que ya estaban y que me ha dicho el profesor que no debo tocar*/
 .counter {
   font-size: 16px;
   padding: 5px 10px;
