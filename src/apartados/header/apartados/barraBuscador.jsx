@@ -40,7 +40,6 @@ export default function Buscador(){
     /*Muestra el pdf*/
     function mostrarPdf(){
         setVerPdf(!verPdf);
-        pdf-container.classList.toggle("mostrar");
     }
     /*Busca el municipio*/
         //Comprobamos si lo tengo en mi lista de municipios
