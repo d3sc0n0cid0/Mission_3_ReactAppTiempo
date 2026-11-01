@@ -1,6 +1,6 @@
 
 import { useContext } from "react";
-import { ClimaContext } from "../../App.jsx";
+import { ClimaContext } from "../../context/ClimaContext.jsx";
 
 import TarjetaInicio from './apartados/tarjetaInicio.jsx';
 import TarjetaDetalles from "./apartados/tarjetaDetalles.jsx";

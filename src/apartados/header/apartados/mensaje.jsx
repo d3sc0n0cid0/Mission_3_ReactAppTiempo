@@ -4,7 +4,7 @@
  */
 
 import {useContext} from "react";
-import { ClimaContext } from '../../../App.jsx';
+import { ClimaContext } from '../../../context/ClimaContext.jsx';
 import '../header.css';
 
 export default function Mensaje(){

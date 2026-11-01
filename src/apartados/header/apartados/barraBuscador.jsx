@@ -6,11 +6,11 @@ El botón de buscar
 El botón de información
  */
 
-import { useState, useContext, useEffect, useMemo, useRef } from "react";
+import { useState, useContext, useEffect, useMemo, useRef, useCallback } from "react";
 import {fetchWeatherByMunicipio} from '../../API/Aemet.js'
 import '../header.css';
 import municipios from '../../../assets/src/json/municipios_espana.json';
-import { ClimaContext } from '../../../App.jsx';
+import { ClimaContext } from '../../../context/ClimaContext.jsx';
 import { HabilitadoContext } from '../header.jsx';
 
 
@@ -54,7 +54,8 @@ export default function Buscador(){
     }
 
     //Manejar la búsqueda
-    const manejarBusqueda = async () => {
+    //Use Callback para guardar la vaersión hasta que la cambie el user
+    const manejarBusqueda = useCallback(async () => {
         // Cancelamos cualquier petición previa en curso antes de empezar una nueva
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
@@ -97,7 +98,7 @@ export default function Buscador(){
         finally{
             desBloqeuar();
         }
-    };
+    }, [busqueda, municipiosIndexados, setDatosTiempo, setMensajeInfo, bloqeuar, desBloqeuar]);
 
     // useEffect que solo se ejecuta una vez al montar el componente
     useEffect(() => {
@@ -109,7 +110,7 @@ export default function Buscador(){
                 abortControllerRef.current.abort();
             }
         };
-    }, []);
+    }, []);//Solo se ejecuta al iniciar la página
 
     return (
         <div className = "buscadorMunicipio">

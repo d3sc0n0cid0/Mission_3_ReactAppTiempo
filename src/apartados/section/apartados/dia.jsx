@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ClimaContext } from "../../../App.jsx";
+import { ClimaContext } from "../../../context/ClimaContext";
 import '../section.css'
 export default function Dia() {
   const { fecha } = useContext(ClimaContext);

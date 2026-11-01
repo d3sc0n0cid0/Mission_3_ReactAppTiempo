@@ -1,7 +1,7 @@
 import Buscador from './apartados/barraBuscador'
 import Mensaje from './apartados/mensaje'
 import './header.css';
-import { ClimaContext } from '../../App.jsx';
+import { ClimaContext } from '../../context/ClimaContext';
 import { useContext, createContext,useState } from "react";
 
 export const HabilitadoContext = createContext(); //Para evitar el Prop Drilling
