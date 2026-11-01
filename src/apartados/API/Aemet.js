@@ -9,7 +9,8 @@ const API_KEY = import.meta.env.VITE_AEMET_API_KEY;
 
 /*espere hasta que se le mande algo, no para el código
 y si no le pongo nada pone de default el municipio de madrid*/
-export async function fetchWeatherByMunicipio(codigoMunicipio = '28079') {
+/*Y ahora recibe también la señal de abort por parte del usuario */
+export async function fetchWeatherByMunicipio(codigoMunicipio = '28079', signal) { 
   try { //Intenta usar la api, si falla algo dentro, ese fallo llama a error
 
     // Comprobamos si tenemos los datos guardados en la caché
@@ -32,7 +33,8 @@ export async function fetchWeatherByMunicipio(codigoMunicipio = '28079') {
     /*Estamos viendo a ver si la aemet nos da los datos*/
     const response = await fetch(url, {
       method: 'GET', /*Devuelve los datos en json*/
-      headers: { 'Accept': 'application/json' }
+      headers: { 'Accept': 'application/json' },
+      signal //Señal de abort
     });
     
     if (response.status === 429) { //Si sale esto es que hay muchas request por mi parte
@@ -53,7 +55,7 @@ export async function fetchWeatherByMunicipio(codigoMunicipio = '28079') {
     }
 
     // Segunda petición para obtener los datos definitivos
-    const responseDatos = await fetch(data.datos);//Tomamos esos datos de la url que si nos dan la información
+    const responseDatos = await fetch(data.datos, { signal }); //Señal de abort
     if (!responseDatos.ok) {
       throw new Error('Error al consultar el servidor de datos de AEMET.');
     }

@@ -14,7 +14,7 @@ import { ClimaContext } from '../../../App.jsx';
 import { HabilitadoContext } from '../header.jsx';
 
 
-export default function Buscador({onHabilitar}){
+export default function Buscador(){
     //Variables
     let [municipioActual, setMunicipioActual] = useState("Madrid");
     const [verPdf, setVerPdf] = useState(false); //Ver el pdf

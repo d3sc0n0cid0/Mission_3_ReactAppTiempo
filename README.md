@@ -9,7 +9,7 @@ He usado la IA de gemini
 no funcionaba. Estuvimos viendo que podría estar mal y finalmente y me acabó dando la solución de en vez de cambiar el día, lo actualizase por los milisegundos donde si funcionó.
 Al parecer el React no siempre se entera de cuando cambia una fecha
 
-2. Pregunté si para la API tenía que re hacer un jsx, pero me dijo que podía usar los js que tenía del trabajo anterior tanto para storage cómo para la api de la AEMET
+2. Pregunté si para la API tenía que re hacer un jsx, pero me dijo que podía usar los js que tenía del trabajo anterior tanto para storage cómo para la api de la AEMET, aunque luego le tuve que añadir lo del abortion
 
 ## Autopsia
 Las 2 decisiones más discutibles de tu código y qué alternativa descartaste en cada una.
