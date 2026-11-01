@@ -69,7 +69,7 @@ export default function Buscador(){
         return () => {
             abortarPeticion();
         };
-    }, []);//Solo se ejecuta al iniciar la página
+    }, []);//Solo se ejecuta al iniciar la página, y así está perfecto no hace falta cambiarlo porque no da error y hace lo que quiero
 
     return (
         <div className = "buscadorMunicipio">

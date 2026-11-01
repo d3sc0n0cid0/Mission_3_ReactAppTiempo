@@ -1,6 +1,6 @@
 // Caja con temperatura sensacion termica, imagen y como de nubloso
-//El profesor me dijo que no eta necesario separarlo en más subfunciones y que así estaba bien
-
+//El profesor me dijo que no era necesario separarlo en más subfunciones y que así estaba bien
+// Extrare de `TarjetaPrincipal.jsx  la lógica de hora más cercana y periodo de cielo a funciones puras o a un hook no es necesario me lo ha dicho el profesor
 export default function TarjetaPrincipal({prediccionDia}){
 /* Así es como tiene guardadas las horas
 [
