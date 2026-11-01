@@ -23,7 +23,8 @@ export default function Seccion(){
                 <TarjetaInicio prediccionDia={prediccionDia}/>
             </div>
             <div>
-                <TarjetaPrincipal prediccionDia={prediccionDia}/>
+                {/*Key para que refresque al cambiar hoy/mañana*/}
+                <TarjetaPrincipal key={fecha} prediccionDia={prediccionDia}/>
             </div>
             <div>
                 <TarjetaDetalles prediccionDia={prediccionDia}/>
