@@ -6,26 +6,23 @@ El botón de buscar
 El botón de información
  */
 
-import { useState, useContext, useEffect, useMemo, useRef, useCallback } from "react";
-import {fetchWeatherByMunicipio} from '../../API/Aemet.js'
+import { useState, useContext, useEffect, useMemo, useCallback } from "react";
 import '../header.css';
 import municipios from '../../../assets/src/json/municipios_espana.json';
-import { ClimaContext } from '../../../context/ClimaContext.jsx';
 import { HabilitadoContext } from '../header.jsx';
-
+import { useWeather } from '../../../hooks/useWeather.jsx';
 
 export default function Buscador(){
     //Variables
     let [municipioActual, setMunicipioActual] = useState("Madrid");
     const [verPdf, setVerPdf] = useState(false); //Ver el pdf
     const [busqueda, setBusqueda] = useState("Madrid");//Manejar las busquedas 
-    const { setDatosTiempo, setMensajeInfo } = useContext(ClimaContext);
 
     //De HabilitadoContext
-    let {bDesabilitado,bloqeuar,desBloqeuar} = useContext(HabilitadoContext);
+    let {bDesabilitado} = useContext(HabilitadoContext);
     
-    // Referencia persistente para el controlador de aborto
-    const abortControllerRef = useRef(null);
+    // Extraemos la lógica de la API y avisos desde nuestro custom hook
+    const { consultarClima, abortarPeticion, setMensajeInfo } = useWeather();
 
     // Precalculamos la lista indexando los nombres normalizados una sola vez al cargar el módulo
     //lo meto en un useMemo para evitar el coste de tener qe calcularlo cada vez
@@ -53,18 +50,9 @@ export default function Buscador(){
         return municipioEncontrado ? municipioEncontrado.codigo : null;
     }
 
-    //Manejar la búsqueda
-    //Use Callback para guardar la vaersión hasta que la cambie el user
-    const manejarBusqueda = useCallback(async () => {
-        // Cancelamos cualquier petición previa en curso antes de empezar una nueva
-        if (abortControllerRef.current) {
-            abortControllerRef.current.abort();
-        }
-        // Creamos un nuevo controlador para la petición actual
-        abortControllerRef.current = new AbortController();
-
+    const manejarBusqueda = useCallback(() => {
         //Si no escriben nada
-        if (!busqueda.trim()) {
+        if (!busqueda.trim()) {//Quita espacio al principio y al final si tiene
             setMensajeInfo({texto: 'Escribe un municipio.', tipo: 'error'});
             return;
         }
@@ -73,42 +61,16 @@ export default function Buscador(){
             setMensajeInfo({ texto: `No se encontró el municipio "${busqueda}".`, tipo: 'error' });
             return;
         }
-        //Si escriben algo se buscará (mostramos mensaje de cargando)
-        setMensajeInfo({ texto: 'Buscando municipio...', tipo: 'cargando' });
-        try {
-            bloqeuar();//Bloqueamos controles
-
-            //Ejecutamos la búsqueda a la API de Aemet usando la señal guardada en la referencia
-            const datos = await fetchWeatherByMunicipio(codigo, abortControllerRef.current.signal);
-            
-            //Guardamos los datos
-            if (setDatosTiempo) setDatosTiempo(datos);
-            if(datos!=null) setMunicipioActual(busqueda) 
-            //Limpiar mensaje si todo salió bien
-            setMensajeInfo({ texto: '', tipo: '' });
-        } catch (error) {
-            //Petición cancelada por usuario
-            if (error.name === 'AbortError') return;
-            //Si falla algo ha sido de la API
-            setMensajeInfo({ 
-                texto: error.message || 'Error al consultar AEMET.', 
-                tipo: 'error' 
-            });
-        }
-        finally{
-            desBloqeuar();
-        }
-    }, [busqueda, municipiosIndexados, setDatosTiempo, setMensajeInfo, bloqeuar, desBloqeuar]);
+        //Ahora lo hace por el hookPersonalizado de useWeather
+        consultarClima(codigo, busqueda, () => setMunicipioActual(busqueda));
+    }, [busqueda, municipiosIndexados, consultarClima, setMensajeInfo]);
 
     // useEffect que solo se ejecuta una vez al montar el componente
     useEffect(() => {
         manejarBusqueda();
 
         return () => {
-            // Cancelamos la petición activa si el componente se desmonta
-            if (abortControllerRef.current) {
-                abortControllerRef.current.abort();
-            }
+            abortarPeticion();
         };
     }, []);//Solo se ejecuta al iniciar la página
 
