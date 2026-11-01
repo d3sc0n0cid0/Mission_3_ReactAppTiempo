@@ -2,12 +2,12 @@ import Buscador from './apartados/barraBuscador'
 import Mensaje from './apartados/mensaje'
 import './header.css';
 import { ClimaContext } from '../../context/ClimaContext';
-import { useContext, createContext,useState } from "react";
+import { useContext } from "react";
 import {HabilitadoContext} from '../../context/HabilitadoContext'
 
 export default function Header(){
-    let {setfecha} = useContext(ClimaContext);
-    let { bDesabilitado } = useContext(HabilitadoContext);
+    const {setfecha} = useContext(ClimaContext);
+    const { bDesabilitado } = useContext(HabilitadoContext);
 
     return(
         <div>

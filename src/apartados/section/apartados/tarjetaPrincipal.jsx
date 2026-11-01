@@ -11,7 +11,7 @@ export default function TarjetaPrincipal({prediccionDia}){
 ] */
     const datosHoras = prediccionDia?.temperatura?.dato || [];
     const dia = new Date();
-    const horaActual = dia.getHours();
+    const horaActual = dia.getHours(); 
 
     let horaMenorDiferencia=24;
     let diferenciaHoras;
