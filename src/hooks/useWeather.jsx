@@ -2,8 +2,7 @@
 import { useContext, useRef, useCallback } from "react";
 import { fetchWeatherByMunicipio } from '../apartados/API/Aemet.js';
 import { ClimaContext } from '../context/ClimaContext.jsx';
-import { HabilitadoContext } from '../apartados/header/header.jsx';
-
+import { HabilitadoContext } from '../context/HabilitadoContext.jsx';
 //HookPersonalizado
 export function useWeather() {
     const { setDatosTiempo, setMensajeInfo } = useContext(ClimaContext);
@@ -20,8 +19,8 @@ export function useWeather() {
             abortControllerRef.current.abort();
         }
         // Creamos un nuevo controlador para la petición actual
-        abortControllerRef.current = new AbortController();
-
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
         //Si escriben algo se buscará (mostramos mensaje de cargando)
         setMensajeInfo({ texto: 'Buscando municipio...', tipo: 'cargando' });
         try {
@@ -32,7 +31,7 @@ export function useWeather() {
             
             //Guardamos los datos
             if (setDatosTiempo) setDatosTiempo(datos);
-            if (datos != null && alExito) alExito();
+            if (datos != null && alExito) alExito(); // alExito es del callBack, es cuando todo vaya bien ejecuta la función en este caso setMunicipioActual
             //Limpiar mensaje si todo salió bien
             setMensajeInfo({ texto: '', tipo: '' });
         } catch (error) {
@@ -45,7 +44,10 @@ export function useWeather() {
             });
         }
         finally{
-            desBloqeuar();
+            //Solo desbloquea si esta petición es la última
+            if (abortControllerRef.current === controller) {
+                desBloqeuar();
+            }
         }
     }, [setDatosTiempo, setMensajeInfo, bloqeuar, desBloqeuar]);
 

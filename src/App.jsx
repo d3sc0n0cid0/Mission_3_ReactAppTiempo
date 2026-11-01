@@ -2,6 +2,7 @@ import './App.css' //Si se está usando no se porque webiArena dice que no, aña
 import Header from './apartados/header/header.jsx'
 import Seccion from './apartados/section/section.jsx'
 import { ClimaProvider } from './context/ClimaContext.jsx';
+import {HabilitadoProvider} from './context/HabilitadoContext.jsx';
 
 function App() {
 
@@ -12,7 +13,9 @@ function App() {
       </noscript>
       <ClimaProvider>
         <header>
-          <Header/>
+          <HabilitadoProvider>
+            <Header />
+          </HabilitadoProvider>
         </header>
         <section>
           <Seccion/>

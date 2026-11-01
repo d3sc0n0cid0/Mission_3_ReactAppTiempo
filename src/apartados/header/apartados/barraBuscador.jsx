@@ -6,10 +6,10 @@ El botón de buscar
 El botón de información
  */
 
-import { useState, useContext, useEffect, useMemo, useCallback } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import '../header.css';
 import municipios from '../../../assets/src/json/municipios_espana.json';
-import { HabilitadoContext } from '../header.jsx';
+import { HabilitadoContext } from '../../../context/HabilitadoContext.jsx';
 import { useWeather } from '../../../hooks/useWeather.jsx';
 
 export default function Buscador(){
@@ -25,14 +25,11 @@ export default function Buscador(){
     const { consultarClima, abortarPeticion, setMensajeInfo } = useWeather();
 
     // Precalculamos la lista indexando los nombres normalizados una sola vez al cargar el módulo
-    //lo meto en un useMemo para evitar el coste de tener qe calcularlo cada vez
-    const municipiosIndexados = useMemo(() => {
-        return municipios.map((m) => ({
-            codigo: m.codigo,
-            nombre: m.nombre,
-            nombreNormalizado: m.nombre.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-        }));
-    }, [municipios]);//Y solo cambia cuand cambie municipios
+    const municipiosIndexados = municipios.map((m) => ({
+        codigo: m.codigo,
+        nombre: m.nombre,
+        nombreNormalizado: m.nombre.toLowerCase().trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    }));
 
     //Funciones
     /*Muestra el pdf*/
