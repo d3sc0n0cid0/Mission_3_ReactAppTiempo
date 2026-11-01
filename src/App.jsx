@@ -1,9 +1,7 @@
-import './App.css'
+import './App.css' //Si se está usando no se porque webiArena dice que no, añade al fondo a la web
 import Header from './apartados/header/header.jsx'
 import Seccion from './apartados/section/section.jsx'
 import { ClimaProvider } from './context/ClimaContext.jsx';
-
-import { useState, useContext ,createContext } from "react";
 
 function App() {
 

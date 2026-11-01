@@ -3,8 +3,8 @@ import Dia from './dia'
 import '../section.css'
 export default function TarjetaInicio({prediccionDia}){
 
-    const tempMaxima = prediccionDia.temperatura?.maxima;
-    const tempMinima = prediccionDia.temperatura?.minima;
+    const tempMaxima = prediccionDia?.temperatura?.maxima;
+    const tempMinima = prediccionDia?.temperatura?.minima;
 
     return(
         <div>
@@ -17,8 +17,8 @@ export default function TarjetaInicio({prediccionDia}){
                 </div>
                 <div className='tempMaxMin'>
                 {/*Temperatura max y minima*/}
-                    <p>Min: {tempMinima|| "error al conseguir la temperatura mínima"}</p>
-                    <p>Max: {tempMaxima|| "error al conseguir la temperatura máxima"}</p>
+                    <p>Min: {tempMinima ?? "error al conseguir la temperatura mínima"}</p>
+                    <p>Max: {tempMaxima ?? "error al conseguir la temperatura máxima"}</p>
                 </div>
             </div>
         </div>
