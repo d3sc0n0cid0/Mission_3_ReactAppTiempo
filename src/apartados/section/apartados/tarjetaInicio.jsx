@@ -17,8 +17,8 @@ export default function TarjetaInicio({prediccionDia}){
                 </div>
                 <div className='tempMaxMin'>
                 {/*Temperatura max y minima*/}
-                    <p>Min: {tempMinima}</p>
-                    <p>Max: {tempMaxima}</p>
+                    <p>Min: {tempMinima|| "error al conseguir la temperatura mínima"}</p>
+                    <p>Max: {tempMaxima|| "error al conseguir la temperatura máxima"}</p>
                 </div>
             </div>
         </div>

@@ -72,9 +72,9 @@ export default function TarjetaPrincipal({prediccionDia}){
             <div className="descripcionTiempoImagen">
                 {/*Imagen + definicion*/}
                 <div className="cajaImagenTiempo">
-                    <img className="imagenTiempo" src={`https://www.aemet.es/imagenes/png/estado_cielo/${descripcionActual.value}.png`}/>
+                    <img className="imagenTiempo" src={`https://www.aemet.es/imagenes/png/estado_cielo/${descripcionActual?.value}.png`} alt="Error al cargar la imagen"/>
                 </div>
-                <p className="descripcionTiempo">{descripcionActual.descripcion}</p>
+                <p className="descripcionTiempo">{descripcionActual?.descripcion|| "Sin descripción"}</p>
             </div>
         </div>
     )
